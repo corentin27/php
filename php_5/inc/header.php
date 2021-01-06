@@ -15,10 +15,12 @@
 
 <header>
     <nav>
-        <ul>
+        <ul class="navBar">
             <li><a href="index.php">Home</a></li>
             <li><a href="contact.php">Contact</a></li>
             <li><a href="blog.php">Blog</a></li>
+            <li><a href="profil.php?nom=quidel&prenom=antoine">Profil d'antoine</a></li>
+            <li><a href="profil.php?prenom=laurent">Profil Laurent</a></li>
         </ul>
     </nav>
 </header>
