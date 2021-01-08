@@ -15,7 +15,7 @@ include ('inc/header.php');
 //    return '';
 //}
 
-
+echo debug($movies);
 foreach ($movies as $film)
 {
     //echo '<div><img src="http://www.weblitzer.fr/formation/posters/'.$film['id'].'.jpg"></div>';

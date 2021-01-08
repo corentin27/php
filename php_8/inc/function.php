@@ -20,3 +20,22 @@ function inputError ($errors,$data,string $key,int $min,int $max){
     }
     return $errors;
 }
+
+function paginationColumn ($selectCount, $fromTable, $page, $perPage,$href ){
+    global $pdo;
+    $sql = "SELECT COUNT($selectCount) FROM $fromTable";
+    $query = $pdo->prepare($sql);
+    $query->execute();
+    $count = $query->fetchColumn();
+
+    if ($page > 1 ){ ?>
+        <a href="<?php echo $href; echo $page - 1;?>">Précédent</a>
+    <?php }
+
+    if ($page * $perPage < $count){ ?>
+        <a href="<?php echo $href; echo $page + 1; ?>">Suivant</a>
+
+
+    <?php }//
+
+}

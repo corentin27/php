@@ -47,6 +47,10 @@ BRIEF APRES LE CONFINEMENT
 Étape 12
 	Si le formulaire n'est pas valide, affichez un message d'erreur. Assurez-vous également que les données entrées par l'internaute sont restituées dans le formulaire, afin qu'il n'ait pas à tout retaper.
 
+
+
+
+
 Étape 13
 	Créez un système de pagination qui permettra de voir les rêves suivantes ou précédentes.
 	Vous devez donc, pour commencer, créer 2 liens (rêves suivantes et rêves précédentes) qui mèneront vers cette même page index.php, mais en y incluant un nouveau paramètre d'url : page. Les liens ressembleront donc à index.php?page=3
