@@ -9,68 +9,92 @@ include ('inc/header.php');
 debug($_POST);
 
 $errors = array();
-
+$sucess = false;
+$colors = array(
+    'blue'   => 'Bleu',
+    'yellow' => 'Jaune',
+    'red'    => 'Rouge'
+);
 if (!empty($_POST['submitted'])){
 
 
-    // validation
-    // renseignement, minimum 3 caractères, max de 50 caractères
-    // VERSION SANS FUNCTION
-//    if (!empty($nom)){
-//        if (mb_strlen($nom) < 3){
-//            $errors['nom'] = 'Veuillez renseigner 3 caractères minimum';
-//
-//        } elseif (mb_strlen($nom) > 50 ){
-//            $errors['nom'] = 'Veuillez renseigner moins de 50 caractères';
-//        }
-//    }else {
-//        $errors['nom'] = 'Veuillez renseigner ce champ';
-//    }
-//
-
-
-
-
-    function inputText (string $key,int $min,int $max):void{
-        global $errors;
-        ////////////////////////////////////////
-        //    faille XSS
-        $nom = trim(strip_tags($_POST[$key]));
-        ////////////////////////////////////////
-        if (!empty($nom)){
-            if (mb_strlen($nom) < $min){
-                $errors[$key] = 'Veuillez renseigner '.$min.' caractère(s) minimum';
-
-            } elseif (mb_strlen($nom) > $max){
-                $errors[$key] = 'Veuillez renseigner moins de '.$max.' caractères';
-            }
-        }else {
-            $errors[$key] = 'Veuillez renseigner ce champ';
-        }
+    // Faille XSS
+    $nom      = trim(strip_tags($_POST['nom']));
+    $prenom   = trim(strip_tags($_POST['prenom']));
+    $message  = trim(strip_tags($_POST['message']));
+    $email    = trim(strip_tags($_POST['email']));
+    $couleur  = trim(strip_tags($_POST['couleur']));
+    if (empty($colors[$couleur])){
+        $errors['couleur'] = 'Veillez renseignez ce champ';
     }
+    ///////////////////////////
+    //////// VALIDATION ///////
+    ///////////////////////////
+    $errors = inputError($errors,$nom,'nom',3,50);
+    $errors = inputError($errors,$prenom,'prenom',1,11);
+    $errors = inputError($errors,$message,'message',10,500);
+    $errors = inputError($errors,$couleur,'couleur',2,20);
+    $errors = validEmail($errors,$email,'email');
 
-    inputText('nom',3,50);
-    inputText('prenom',1,11);
-    inputText('prenom',1,10);
-
+    // si il y'a pas d'erreur
+    // if not errors
+    if (count($errors) == 0){
+        // send email , insert into
+        $sucess = true;
+    }
 }
 ?>
 <!--    Traitement de formulaire   -->
 <div class="wrap">
-    <form action="" method="post">
+
+    <?php
+    if ($sucess){ ?>
+    <p class="sucess">Bravo</p>
+    <?php
+    }else { ?>
+    <form action="" method="post" novalidate>
         <label for="nom">Nom</label>
         <span class="error"><?php if (!empty($errors['nom'])){ echo $errors['nom'];} ?></span>
-        <input type="text" name="nom" id="nom" value="<?php if (!empty($_POST['nom'])){ echo $_POST['nom'];}?>">
+        <input type="text" name="nom" id="nom" placeholder="Nom" value="<?php if (!empty($_POST['nom'])){ echo $_POST['nom'];}?>">
 
         <label for="prenom">Prenom</label>
+
         <span class="error"><?php if (!empty($errors['prenom'])){ echo $errors['prenom'];} ?></span>
-        <input type="text" name="prenom" id="prenom" value="<?php if (!empty($_POST['prenom'])){ echo $_POST['prenom'];}?>">
+
+                                <!--  Dans la value on sauvegarde la valeur déjà entrer precendant      -->
+        <input type="text" name="prenom" id="prenom" placeholder="Prenom" value="<?php if (!empty($_POST['prenom'])){ echo $_POST['prenom'];}?>">
 
         <label for="message">Message</label>
         <span class="error"><?php if (!empty($errors['message'])){ echo $errors['message'];} ?></span>
-        <textarea name="message" id="message" cols="50" rows="10" value="<?php if (!empty($_POST['message'])){ echo $_POST['message'];}?>"></textarea>
+        <textarea name="message" id="message" placeholder="Message..." cols="50" rows="10" value="<?php if (!empty($_POST['message'])){ echo $_POST['message'];}?>"></textarea>
+
+
+        <label for="email">Email</label>
+        <span class="error"><?php if (!empty($errors['email'])){ echo $errors['email'];} ?></span>
+        <input type="email" name="email" id="email" placeholder="Example@email.com" value="<?php if (!empty($_POST['email'])){ echo $_POST['email'];}?>">
+
+
+<!--        //////////////////////// SELECT //////////////////////////////////////-->
+        <?php
+
+
+
+        ?>
+
+        <label for="email">Couleur *</label>
+        <select name="couleur">
+            <option value="">__ selectionnez __</option>
+            <?php foreach ($colors as $key => $value): ?>
+                <option value="<?php echo $key; ?>" <?php if(!empty($_POST['couleur'])) { if($_POST['couleur'] == $key) {echo 'selected="selected"';}} ?>><?php echo $value; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <span class="error"><?php if(!empty($errors['couleur'])) { echo $errors['couleur']; } ?></span>
+
+
         <input type="submit" name="submitted" value="Envoyer">
     </form>
+    <?php
+    } ?>
 </div>
 
 <?php
