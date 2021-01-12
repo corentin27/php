@@ -74,15 +74,7 @@ if (!empty($_POST['submitted'])) {
 }
 debug($_POST);
 debug($errors);
-//else {
-//    die('404');
-//}
 
-// validation d chacun des champs
-
-// si pas erreur
-
-// INSERT INTO
 
 
 
