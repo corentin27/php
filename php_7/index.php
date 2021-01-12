@@ -45,14 +45,16 @@ $count = $query->fetchColumn();
 
 include ('inc/header.php');
 
+echo $paginator;
 
-echo '<p>Nombre Total de villes : '.$count.'</p>';
+echo '<p>Nombre Total de villes : '.$totalItems.'</p>';
 echo '<hr>';
 foreach ($villes as $ville){
     echo '<p>'.$ville['Name'].'</p>';
-    echo '<ul>';
+    echo '<ul class="pagination">';
     echo '<a href="detail.php?id='.$ville['ID'].'">Voir plus</a>';
     echo '</ul>';
+
 }
 
 
