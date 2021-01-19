@@ -1,0 +1,13 @@
+{
+    "name": "corentin/resize",
+    "authors": [
+        {
+            "name": "corentin27",
+            "email": "tailleur.corentin27@gmail.com"
+        }
+    ],
+    "require": {
+        "gregwar/image": "^2.0",
+        "gumlet/php-image-resize": "^2.0"
+    }
+}

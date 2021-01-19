@@ -1,0 +1,12 @@
+{
+    "name": "corentin/php_7",
+    "authors": [
+        {
+            "name": "corentin27",
+            "email": "tailleur.corentin27@gmail.com"
+        }
+    ],
+    "require": {
+        "jasongrimes/paginator": "~1.0"
+    }
+}
